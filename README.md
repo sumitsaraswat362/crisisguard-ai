@@ -3,6 +3,9 @@
   <h1 style="font-size: 48px; margin-bottom: 0;">🧠 CrisisGuard AI</h1>
   <p><strong>Clinical-Grade Mental Health Crisis Detection & Response Platform</strong></p>
   <p>🏆 <i>Built for the <b>UOE Summer of Code 2026</b></i> 🏆</p>
+  <br>
+  <a href="https://sumitsaraswat362.github.io/crisisguard-ai/"><img src="https://img.shields.io/badge/🚀_Live_Demo-Try_It_Now-6366f1?style=for-the-badge" alt="Live Demo"/></a>
+  <a href="https://github.com/sumitsaraswat362/crisisguard-ai"><img src="https://img.shields.io/badge/GitHub-Source_Code-181717?style=for-the-badge&logo=github" alt="GitHub"/></a>
 </div>
 
 <br>
