@@ -42,7 +42,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overf
 .gradient-text{background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
 /* ═══ GLASS CARD ═══ */
-.glass-card{background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:16px;padding:22px;transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+.glass-card{background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:16px;padding:22px;transition:all .4s cubic-bezier(.4,0,.2,1);position:relative}
+.input-panel textarea,.input-panel button,.input-panel .sample-btns{position:relative;z-index:5}
 .glass-card::before{content:'';position:absolute;inset:-1px;border-radius:17px;padding:1px;background:linear-gradient(135deg,rgba(99,102,241,.15),transparent 40%,transparent 60%,rgba(6,182,212,.15));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .4s;pointer-events:none;z-index:2}
 .glass-card:hover::before{opacity:1}
 .glass-card:hover{border-color:rgba(99,102,241,.15);box-shadow:0 8px 32px rgba(99,102,241,.08),0 0 60px rgba(99,102,241,.03);transform:translateY(-3px)}
