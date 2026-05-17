@@ -75,10 +75,19 @@ graph TD
     F --> |Low| I[Provide Wellness Resources]
     end
     
+    subgraph Counselor Finder
+    F --> |Score ≥ 25| J[Browser Geolocation API]
+    J --> K[Reverse Geocode → Country]
+    K --> L[Match Local Crisis Helplines]
+    L --> M[One-Click Call / Text / Website]
+    end
+    
     A -->|100% Local Inference| B
     
     classDef engine fill:#1e2a4a,stroke:#6366f1,stroke-width:2px,color:#fff;
+    classDef finder fill:#0f2922,stroke:#10b981,stroke-width:2px,color:#fff;
     class B,C,D,E engine;
+    class J,K,L,M finder;
 ```
 
 ---
@@ -98,7 +107,9 @@ Built entirely without heavy backend dependencies, the platform is a triumph of 
 1. **Multi-Layer NLP Detection:** Analyzes text against 9 distinct risk categories (Suicidal Ideation, Violence, Severe Distress, Self-Harm, Hopelessness, Isolation, Substance Abuse, Depression, Anxiety).
 2. **Clinical Severity Scoring (0-100):** Weighs detections against sentiment modifiers, temporal urgency ("right now"), and protective factors ("I have my kids").
 3. **Context-Aware AI Advice:** Generates situational response protocols tailored to the exact nature of the text.
-4. **Live Monitoring Simulation:** A dashboard that continuously ingests simulated streams, flagging critical alerts instantly.
+4. **🆕 GPS-Based Counselor Finder:** Automatically detects the user's location via browser Geolocation API, reverse-geocodes to identify their country, and surfaces local crisis helplines with one-click Call/Text/Website actions. Covers 13+ countries including US, UK, India, Canada, Australia, Germany, Japan, and more — with an international fallback.
+5. **Virtual Counseling Directory:** Instantly connects users to online therapy platforms (BetterHelp, 7Cups, Talkspace, Crisis Text Line) regardless of location.
+6. **Live Monitoring Simulation:** A dashboard that continuously ingests simulated streams, flagging critical alerts instantly.
 
 ---
 
