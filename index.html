@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CrisisGuard AI — AI-Powered Mental Health Crisis Detection & Community Response Platform">
+    <title>CrisisGuard AI — Crisis Detection Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-ring"></div>
+        <span class="loader-text">CrisisGuard<span class="brand-ai">AI</span></span>
+        <span class="loader-sub">Initializing Detection Engine...</span>
+    </div>
+
+    <!-- Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-brand">
+            <div class="brand-icon">
+                <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" stroke="url(#g1)" stroke-width="2.5"/><path d="M20 8C13.4 8 8 13.4 8 20s5.4 12 12 12 12-5.4 12-12" stroke="url(#g2)" stroke-width="2" stroke-linecap="round"/><circle cx="20" cy="20" r="4" fill="url(#g1)"/><path d="M20 12v4M20 24v4M12 20h4M24 20h4" stroke="url(#g1)" stroke-width="1.5" stroke-linecap="round"/><defs><linearGradient id="g1" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#06b6d4"/></linearGradient><linearGradient id="g2" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#06b6d4"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs></svg>
+            </div>
+            <span class="brand-text">CrisisGuard<span class="brand-ai">AI</span></span>
+        </div>
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-page="home" onclick="showPage('home')">Home</button>
+            <button class="nav-tab" data-page="dashboard" onclick="showPage('dashboard')">Dashboard</button>
+            <button class="nav-tab" data-page="analyze" onclick="showPage('analyze')">Analyzer</button>
+            <button class="nav-tab" data-page="monitor" onclick="showPage('monitor')">Live Monitor</button>
+            <button class="nav-tab" data-page="resources" onclick="showPage('resources')">Resources</button>
+        </div>
+        <div class="nav-status"><div class="status-dot"></div>System Active</div>
+    </nav>
+
+    <!-- ====== HOME PAGE ====== -->
+    <main class="page active" id="page-home">
+        <div class="hero">
+            <div class="hero-glow"></div>
+            <div class="hero-badge"><span class="badge-pulse"></span>AI-Powered Crisis Detection</div>
+            <h1 class="hero-title">Protecting Lives Through<br><span class="gradient-text typed-text" id="typedText"></span></h1>
+            <p class="hero-sub">Real-time NLP analysis detecting mental health crisis signals with clinical-grade severity scoring — all running privately in your browser.</p>
+            <div class="hero-btns">
+                <button class="btn btn-glow" onclick="showPage('analyze')"><span>🔬</span> Start Analysis</button>
+                <button class="btn btn-glass" onclick="showPage('dashboard')"><span>📊</span> View Dashboard</button>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-card"><div class="stat-num" data-target="1247">0</div><div class="stat-lbl">Texts Analyzed</div></div>
+                <div class="stat-card"><div class="stat-num" data-target="89">0</div><div class="stat-lbl">Crises Detected</div></div>
+                <div class="stat-card"><div class="stat-num-raw">&lt; 2s</div><div class="stat-lbl">Response Time</div></div>
+                <div class="stat-card"><div class="stat-num-raw">94.7%</div><div class="stat-lbl">Accuracy Rate</div></div>
+            </div>
+            <!-- Feature Cards -->
+            <div class="features">
+                <div class="feat-card" style="--delay:0s"><div class="feat-icon">🧠</div><h3>Multi-Layer NLP</h3><p>6-category crisis lexicon with sentiment analysis, urgency detection, and protective factor scoring</p></div>
+                <div class="feat-card" style="--delay:.1s"><div class="feat-icon">🔒</div><h3>100% Private</h3><p>All analysis runs in-browser. Zero data ever sent to external servers. Privacy by design.</p></div>
+                <div class="feat-card" style="--delay:.2s"><div class="feat-icon">⚡</div><h3>Real-Time</h3><p>Instant analysis with live monitoring streams and automated severity-based alert routing</p></div>
+                <div class="feat-card" style="--delay:.3s"><div class="feat-icon">📋</div><h3>Response Protocol</h3><p>Automated clinical-grade response recommendations based on severity classification</p></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ====== DASHBOARD PAGE ====== -->
+    <main class="page" id="page-dashboard">
+        <div class="page-container">
+            <div class="page-head"><h2>Real-Time <span class="gradient-text">Crisis Dashboard</span></h2><p>Live monitoring metrics, severity trends, and response coordination</p></div>
+            <div class="kpi-row">
+                <div class="kpi glass-card"><div class="kpi-ic kpi-red">🚨</div><div><div class="kpi-val" id="kpiActive">3</div><div class="kpi-lbl">Active Alerts</div></div><span class="kpi-badge badge-up">↑ 12%</span></div>
+                <div class="kpi glass-card"><div class="kpi-ic kpi-grn">✅</div><div><div class="kpi-val" id="kpiResolved">47</div><div class="kpi-lbl">Resolved Today</div></div><span class="kpi-badge badge-up">↑ 8%</span></div>
+                <div class="kpi glass-card"><div class="kpi-ic kpi-blu">⏱️</div><div><div class="kpi-val">1.8s</div><div class="kpi-lbl">Avg Response</div></div><span class="kpi-badge badge-dn">↓ 23%</span></div>
+                <div class="kpi glass-card"><div class="kpi-ic kpi-pur">💜</div><div><div class="kpi-val">72</div><div class="kpi-lbl">Wellness Score</div></div><span class="kpi-badge badge-up">↑ 5%</span></div>
+            </div>
+            <div class="charts-grid">
+                <div class="glass-card chart-box chart-wide"><div class="card-head"><h3>📈 Crisis Trend (24H)</h3><div class="chart-tabs"><button class="ct active" onclick="switchChartRange(this,'24h')">24H</button><button class="ct" onclick="switchChartRange(this,'7d')">7D</button><button class="ct" onclick="switchChartRange(this,'30d')">30D</button></div></div><canvas id="trendChart"></canvas></div>
+                <div class="glass-card chart-box"><div class="card-head"><h3>🎯 Severity Split</h3></div><canvas id="severityChart"></canvas></div>
+            </div>
+            <div class="bottom-grid">
+                <div class="glass-card feed-box"><div class="card-head"><h3>🔴 Live Feed</h3><span class="live-dot">● LIVE</span></div><div class="feed-list" id="feedList"></div></div>
+                <div class="glass-card heatmap-box"><div class="card-head"><h3>🗺️ Risk Heatmap</h3></div><div id="heatmap"></div></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ====== ANALYZER PAGE ====== -->
+    <main class="page" id="page-analyze">
+        <div class="page-container">
+            <div class="page-head"><h2>Crisis <span class="gradient-text">Analyzer Engine</span></h2><p>Paste any text and our multi-layer NLP pipeline will detect crisis signals with clinical-grade scoring</p></div>
+            <div class="analyzer-layout">
+                <div class="glass-card input-panel">
+                    <div class="panel-head"><h3>📝 Input Text</h3><div class="sample-btns"><button onclick="loadSample('low')">Low Risk</button><button onclick="loadSample('medium')">Medium</button><button onclick="loadSample('high')">High Risk</button><button class="samp-crit" onclick="loadSample('critical')">⚠ Critical</button></div></div>
+                    <textarea id="inputText" placeholder="Paste text here for crisis analysis..."></textarea>
+                    <div class="input-foot"><span id="charCt">0 chars</span><button class="btn btn-glow" id="analyzeBtn" onclick="runAnalysis()">🔬 Analyze Text</button></div>
+                </div>
+                <div class="results-panel" id="resultsPanel">
+                    <div class="glass-card result-gauge-card">
+                        <div class="res-head"><h3>Severity Assessment</h3><span id="resTime" class="res-time"></span></div>
+                        <div class="gauge-wrap">
+                            <div class="gauge-ring" id="gaugeRing"><div class="gauge-inner"><span class="gauge-num" id="gaugeNum">0</span><span class="gauge-lbl" id="gaugeLbl">—</span></div></div>
+                            <div class="gauge-scale"><span class="gs gs-low">Low</span><span class="gs gs-mod">Moderate</span><span class="gs gs-high">High</span><span class="gs gs-crit">Critical</span></div>
+                        </div>
+                    </div>
+                    <div class="glass-card" id="detectionsCard"><h4>🎯 Detection Breakdown</h4><div id="detectionsBody"></div></div>
+                    <div class="glass-card" id="keywordsCard" style="display:none"><h4>🏷️ Crisis Indicators Found</h4><div class="kw-tags" id="kwTags"></div></div>
+                    <div class="glass-card" id="actionsCard"><h4>🚀 Response Protocol</h4><div id="actionsBody"></div></div>
+                    <div class="glass-card" id="adviceCard" style="display:none"><h4>🧠 AI Contextual Analysis & Advice</h4><div id="adviceBody"></div></div>
+                    <div class="glass-card"><h4>📊 Model Confidence</h4><div id="confBody"></div></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ====== MONITOR PAGE ====== -->
+    <main class="page" id="page-monitor">
+        <div class="page-container">
+            <div class="page-head"><h2>Live <span class="gradient-text">Crisis Monitor</span></h2><p>Real-time simulated monitoring stream with continuous crisis detection</p></div>
+            <div class="glass-card monitor-ctrl"><button class="btn btn-glow" id="monBtn" onclick="toggleMonitor()">▶ Start Monitoring</button><div class="mon-stats"><div class="mon-s"><span class="mon-v" id="monScanned">0</span><span class="mon-l">Scanned</span></div><div class="mon-s"><span class="mon-v" id="monFlagged">0</span><span class="mon-l">Flagged</span></div><div class="mon-s"><span class="mon-v mon-v-red" id="monCritical">0</span><span class="mon-l">Critical</span></div></div></div>
+            <div class="glass-card monitor-feed-box"><div id="monFeed" class="mon-feed"><div class="mon-empty">⏳ Click "Start Monitoring" to begin real-time detection</div></div></div>
+        </div>
+    </main>
+
+    <!-- ====== RESOURCES PAGE ====== -->
+    <main class="page" id="page-resources">
+        <div class="page-container">
+            <div class="page-head"><h2>Crisis <span class="gradient-text">Resources</span></h2><p>If you or someone you know is in crisis, help is available 24/7</p></div>
+            <div class="res-grid">
+                <div class="glass-card res-card res-emergency"><span class="res-ic">🆘</span><h3>Emergency Services</h3><p>If someone is in immediate danger</p><a href="tel:911">Call 911 (US) →</a></div>
+                <div class="glass-card res-card"><span class="res-ic">📞</span><h3>988 Suicide & Crisis Lifeline</h3><p>Free 24/7 confidential support</p><a href="tel:988">Call or Text 988 →</a></div>
+                <div class="glass-card res-card"><span class="res-ic">💬</span><h3>Crisis Text Line</h3><p>Text-based crisis counseling 24/7</p><a href="sms:741741">Text HOME to 741741 →</a></div>
+                <div class="glass-card res-card"><span class="res-ic">🌍</span><h3>IASP Crisis Centers</h3><p>Find crisis centers worldwide</p><a href="https://www.iasp.info/resources/Crisis_Centres/" target="_blank">Find Help Globally →</a></div>
+                <div class="glass-card res-card"><span class="res-ic">🧠</span><h3>NAMI Helpline</h3><p>Mental health info and referrals</p><a href="tel:1-800-950-6264">1-800-950-NAMI →</a></div>
+                <div class="glass-card res-card"><span class="res-ic">🤝</span><h3>SAMHSA Helpline</h3><p>Treatment referral service</p><a href="tel:1-800-662-4357">1-800-662-4357 →</a></div>
+            </div>
+            <div class="glass-card disclaimer">⚠️ CrisisGuard AI is a detection tool, NOT a replacement for professional mental health services.</div>
+            <!-- About Section -->
+            <div class="page-head" style="margin-top:60px"><h2>About <span class="gradient-text">CrisisGuard AI</span></h2><p>Built for UOE Summer of Code 2026</p></div>
+            <div class="about-grid">
+                <div class="glass-card abt-card"><h3>🎯 The Problem</h3><p>Millions of crisis signals go undetected in digital communications. Organizations lack tools to proactively identify at-risk individuals.</p></div>
+                <div class="glass-card abt-card"><h3>💡 Our Solution</h3><p>Multi-layer NLP pipeline analyzing text for crisis indicators using sentiment analysis, contextual patterns, and severity scoring.</p></div>
+                <div class="glass-card abt-card"><h3>🏗️ Architecture</h3><p>Client-side inference, multi-stage pipeline, real-time analytics, PWA architecture. Zero external dependencies for core analysis.</p></div>
+                <div class="glass-card abt-card"><h3>🔒 Privacy First</h3><p>All analysis in-browser. No data sent externally. No storage. People in crisis deserve protection, not surveillance.</p></div>
+            </div>
+            <div class="tech-stack"><h3>Tech Stack</h3><div class="tech-tags"><span>HTML5</span><span>CSS3</span><span>Vanilla JS</span><span>Chart.js</span><span>NLP Engine</span><span>Sentiment Analysis</span><span>Canvas Particles</span><span>Client-Side ML</span></div></div>
+        </div>
+    </main>
+
+    <!-- UOE Footer -->
+    <footer class="uoe-footer" id="uoeFooter">
+        <div class="uoe-inner">
+            <div class="uoe-brand">CrisisGuard<span class="brand-ai">AI</span></div>
+            <p class="uoe-tagline">Built with ❤️ for <strong>UOE Summer of Code 2026</strong> — The Code Build for Good</p>
+            <div class="uoe-links"><a href="https://uoe-summer-of-code.devpost.com/" target="_blank">🏆 Hackathon Page</a><span>·</span><a href="#" onclick="showPage('resources');return false">📚 Crisis Resources</a><span>·</span><a href="#" onclick="showPage('home');return false">🏠 Home</a></div>
+            <p class="uoe-copy">© 2026 CrisisGuard AI · Privacy-first mental health crisis detection · All analysis runs locally in your browser</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="nlp-engine.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

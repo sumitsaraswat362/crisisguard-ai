@@ -1,0 +1,10 @@
+{
+  "name": "CrisisGuard AI",
+  "short_name": "CrisisGuard",
+  "description": "AI-Powered Mental Health Crisis Detection & Community Response Platform",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0a0e1a",
+  "theme_color": "#0a0e1a",
+  "icons": []
+}
