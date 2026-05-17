@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Brain_Icon.svg/512px-Brain_Icon.svg.png" alt="CrisisGuard AI Logo" width="100"/>
-  <h1>CrisisGuard AI</h1>
+<div align="center">
+  <h1 style="font-size: 48px; margin-bottom: 0;">🧠 CrisisGuard AI</h1>
   <p><strong>Clinical-Grade Mental Health Crisis Detection & Response Platform</strong></p>
   <p>🏆 <i>Built for the <b>UOE Summer of Code 2026</b></i> 🏆</p>
 </div>
@@ -19,9 +19,15 @@ Unlike generic consumer chatbots, CrisisGuard is a **systemic triage and monitor
 
 Our platform was designed to look like a premium, enterprise-ready application with living, breathing visuals.
 
-| **The Dashboard** (Real-Time Trend Analytics) | **The Analyzer** (Multi-Layer NLP Detection) |
+| **The Home Page** (Live Neural Network) | **The Dashboard** (Real-Time Trend Analytics) |
 |:---:|:---:|
-| <img src="assets/dashboard.png" width="400"/> | <img src="assets/analyzer.png" width="400"/> |
+| <img src="assets/home.png" width="400"/> | <img src="assets/dashboard.png" width="400"/> |
+
+<br>
+
+| **The Analyzer** (Multi-Layer NLP Detection) |
+|:---:|
+| <img src="assets/analyzer.png" width="800"/> |
 
 *The application features a custom-built, interactive neural network particle mesh background, glassmorphism cards, and an animated severity gauge.*
 
