@@ -264,7 +264,103 @@ function renderResults(r) {
         advBody.innerHTML = r.advice.map((a, i) => `<div class="adv-item adv-${a.type}" style="animation:slideIn .3s ease ${i * .1}s both"><div class="adv-head"><span>${a.icon}</span><strong>${a.title}</strong></div><p class="adv-txt">${a.text}</p></div>`).join('');
     } else { advCard.style.display = 'none'; }
 
+    // Counselor Finder — auto-trigger on moderate+
+    const counselorCard = document.getElementById('counselorCard');
+    if (r.severity.score >= 25) {
+        counselorCard.style.display = 'block';
+        renderVirtualCounseling();
+    } else { counselorCard.style.display = 'none'; }
+
     panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ═══ COUNSELOR FINDER ═══
+const CRISIS_DB = {
+    'US':{country:'United States',helplines:[{name:'988 Suicide & Crisis Lifeline',phone:'988',text:'988',desc:'Free 24/7 confidential support for people in distress',web:'https://988lifeline.org',icon:'🆘'},{name:'Crisis Text Line',phone:null,text:'741741',desc:'Text HOME to 741741 for free crisis counseling',web:'https://www.crisistextline.org',icon:'💬'},{name:'NAMI Helpline',phone:'1-800-950-6264',text:null,desc:'Mental health information, referrals, and support',web:'https://www.nami.org',icon:'🧠'}]},
+    'GB':{country:'United Kingdom',helplines:[{name:'Samaritans',phone:'116 123',text:null,desc:'24/7 emotional support for anyone in distress',web:'https://www.samaritans.org',icon:'📞'},{name:'SHOUT Crisis Text',phone:null,text:'85258',desc:'Text SHOUT to 85258 for free crisis support',web:'https://giveusashout.org',icon:'💬'},{name:'Mind',phone:'0300 123 3393',text:null,desc:'Mental health support and information',web:'https://www.mind.org.uk',icon:'🧠'}]},
+    'IN':{country:'India',helplines:[{name:'iCall (TISS)',phone:'9152987821',text:null,desc:'Professional psychosocial helpline by TISS Mumbai',web:'https://icallhelpline.org',icon:'📞'},{name:'Vandrevala Foundation',phone:'1860-2662-345',text:null,desc:'24/7 free mental health support in multiple languages',web:'https://www.vandrevalafoundation.com',icon:'🆘'},{name:'NIMHANS Helpline',phone:'080-46110007',text:null,desc:'National Institute of Mental Health and Neurosciences',web:'https://nimhans.ac.in',icon:'🧠'},{name:'Snehi',phone:'044-24640050',text:null,desc:'Emotional support and suicide prevention',web:'http://www.snehaindia.org',icon:'💚'}]},
+    'CA':{country:'Canada',helplines:[{name:'Crisis Services Canada',phone:'1-833-456-4566',text:'45645',desc:'24/7 crisis support across Canada',web:'https://www.crisisservicescanada.ca',icon:'🆘'},{name:'Kids Help Phone',phone:'1-800-668-6868',text:'686868',desc:'24/7 support for youth under 20',web:'https://kidshelpphone.ca',icon:'👶'}]},
+    'AU':{country:'Australia',helplines:[{name:'Lifeline Australia',phone:'13 11 14',text:'0477 13 11 14',desc:'24/7 crisis support and suicide prevention',web:'https://www.lifeline.org.au',icon:'🆘'},{name:'Beyond Blue',phone:'1300 22 4636',text:null,desc:'Mental health support and information',web:'https://www.beyondblue.org.au',icon:'🧠'}]},
+    'DE':{country:'Germany',helplines:[{name:'Telefonseelsorge',phone:'0800 111 0 111',text:null,desc:'24/7 free emotional support',web:'https://www.telefonseelsorge.de',icon:'📞'}]},
+    'FR':{country:'France',helplines:[{name:'SOS Amitié',phone:'09 72 39 40 50',text:null,desc:'24/7 emotional support and listening',web:'https://www.sos-amitie.com',icon:'📞'}]},
+    'JP':{country:'Japan',helplines:[{name:'TELL Lifeline',phone:'03-5774-0992',text:null,desc:'English-language crisis support in Japan',web:'https://telljp.com',icon:'📞'}]},
+    'BR':{country:'Brazil',helplines:[{name:'CVV',phone:'188',text:null,desc:'24/7 emotional support and suicide prevention',web:'https://www.cvv.org.br',icon:'📞'}]},
+    'ZA':{country:'South Africa',helplines:[{name:'SADAG',phone:'0800 567 567',text:null,desc:'South African Depression and Anxiety Group',web:'https://www.sadag.org',icon:'📞'}]},
+    'PH':{country:'Philippines',helplines:[{name:'Natasha Goulbourn Foundation',phone:'(02) 804-4673',text:null,desc:'24/7 crisis support',web:'https://www.ngf-lifeline.org',icon:'📞'}]},
+    'NZ':{country:'New Zealand',helplines:[{name:'Lifeline NZ',phone:'0800 543 354',text:'4357',desc:'24/7 counselling and support',web:'https://www.lifeline.org.nz',icon:'📞'}]},
+    'SG':{country:'Singapore',helplines:[{name:'Samaritans of Singapore',phone:'1800-221-4444',text:null,desc:'24/7 crisis support',web:'https://www.sos.org.sg',icon:'📞'}]},
+    'DEFAULT':{country:'International',helplines:[{name:'International Association for Suicide Prevention',phone:null,text:null,desc:'Find a crisis center in your country',web:'https://www.iasp.info/resources/Crisis_Centres/',icon:'🌍'},{name:'Befrienders Worldwide',phone:null,text:null,desc:'Emotional support in your language',web:'https://www.befrienders.org',icon:'🤝'}]}
+};
+
+const VIRTUAL_COUNSELING = [
+    { name:'BetterHelp', desc:'Licensed therapists online. Chat, video, or phone.', icon:'🧑‍⚕️', url:'https://www.betterhelp.com' },
+    { name:'7 Cups', desc:'Free emotional support from trained listeners 24/7.', icon:'☕', url:'https://www.7cups.com' },
+    { name:'Talkspace', desc:'Online therapy with licensed professionals.', icon:'💬', url:'https://www.talkspace.com' },
+    { name:'Crisis Text Line', desc:'Text HOME to 741741 from anywhere.', icon:'📱', url:'https://www.crisistextline.org' }
+];
+
+function detectLocation() {
+    const btn = document.getElementById('locateBtn');
+    const results = document.getElementById('counselorResults');
+    btn.classList.add('loading');
+    btn.textContent = '⏳ Detecting...';
+
+    if (!navigator.geolocation) {
+        renderHelplines('DEFAULT', null);
+        btn.classList.remove('loading');
+        btn.textContent = '📍 Detect My Location';
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        pos => {
+            fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&localityLanguage=en`)
+            .then(r => r.json())
+            .then(data => {
+                const code = data.countryCode || 'DEFAULT';
+                const city = data.city || data.locality || '';
+                const country = data.countryName || '';
+                results.innerHTML = `<div class="location-detected">📍 Location detected: <strong>${city}${city && country ? ', ' : ''}${country}</strong></div>`;
+                renderHelplines(code, city);
+                btn.classList.remove('loading');
+                btn.textContent = '✅ Location Found';
+            })
+            .catch(() => { renderHelplines('DEFAULT', null); btn.classList.remove('loading'); btn.textContent = '📍 Try Again'; });
+        },
+        () => {
+            results.innerHTML = `<div class="location-detected" style="color:var(--yellow);border-color:rgba(234,179,8,.15);background:rgba(234,179,8,.06)">⚠️ Location access denied — showing international resources</div>`;
+            renderHelplines('DEFAULT', null);
+            btn.classList.remove('loading');
+            btn.textContent = '📍 Try Again';
+        },
+        { timeout: 8000 }
+    );
+}
+
+function renderHelplines(countryCode, city) {
+    const results = document.getElementById('counselorResults');
+    const db = CRISIS_DB[countryCode] || CRISIS_DB['DEFAULT'];
+    let html = '<div class="helpline-grid">';
+    db.helplines.forEach((h, i) => {
+        html += `<div class="helpline-card" style="animation-delay:${i*.1}s">
+            <div class="hl-head"><span class="hl-icon">${h.icon}</span><span class="hl-name">${h.name}</span><span class="hl-type">${db.country}</span></div>
+            <p class="hl-desc">${h.desc}</p>
+            <div class="hl-actions">
+                ${h.phone ? `<a href="tel:${h.phone.replace(/\s/g,'')}" class="hl-btn hl-btn-call">📞 Call ${h.phone}</a>` : ''}
+                ${h.text ? `<a href="sms:${h.text}" class="hl-btn hl-btn-text">💬 Text ${h.text}</a>` : ''}
+                ${h.web ? `<a href="${h.web}" target="_blank" class="hl-btn hl-btn-web">🌐 Website</a>` : ''}
+            </div>
+        </div>`;
+    });
+    html += '</div>';
+    results.innerHTML += html;
+}
+
+function renderVirtualCounseling() {
+    const grid = document.getElementById('virtualGrid');
+    grid.innerHTML = VIRTUAL_COUNSELING.map(v =>
+        `<div class="virtual-card"><span class="vc-icon">${v.icon}</span><div class="vc-name">${v.name}</div><p class="vc-desc">${v.desc}</p><a href="${v.url}" target="_blank" class="vc-link">Connect Now →</a></div>`
+    ).join('');
 }
 
 // ═══ LIVE MONITOR ═══

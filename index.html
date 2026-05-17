@@ -108,6 +108,15 @@
                     <div class="glass-card" id="keywordsCard" style="display:none"><h4>🏷️ Crisis Indicators Found</h4><div class="kw-tags" id="kwTags"></div></div>
                     <div class="glass-card" id="actionsCard"><h4>🚀 Response Protocol</h4><div id="actionsBody"></div></div>
                     <div class="glass-card" id="adviceCard" style="display:none"><h4>🧠 AI Contextual Analysis & Advice</h4><div id="adviceBody"></div></div>
+                    <div class="glass-card counselor-card" id="counselorCard" style="display:none">
+                        <div class="counselor-head"><h4>🆘 Find a Counselor Near You</h4><button class="btn-locate" id="locateBtn" onclick="detectLocation()">📍 Detect My Location</button></div>
+                        <p class="counselor-sub">Based on the severity detected, we recommend connecting with a professional. Your location helps us find the nearest crisis resources.</p>
+                        <div id="counselorResults"></div>
+                        <div class="virtual-section">
+                            <h5>🌐 Virtual Counseling — Available Anywhere</h5>
+                            <div class="virtual-grid" id="virtualGrid"></div>
+                        </div>
+                    </div>
                     <div class="glass-card"><h4>📊 Model Confidence</h4><div id="confBody"></div></div>
                 </div>
             </div>
